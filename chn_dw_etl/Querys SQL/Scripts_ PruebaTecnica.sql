@@ -38,7 +38,7 @@ GROUP BY dClie.tipo_cliente;
 
 DECLARE @clienteKey INT = 117; -- Reemplázalo por el cliente deseado
 
-SELECT dimt.fecha,
+SELECT DISTINCT dimt.fecha,
        dimcat.codigo_categoria AS categoria,
        dimcat.descripcion,
        fr.puntaje
@@ -147,7 +147,7 @@ WITH Promedios AS (SELECT fTrans.cliente_key,
                          FROM fac_transaccion AS fTrans
                                   JOIN dim_tiempo AS dTie ON fTrans.fecha_key = dTie.fecha_key
                          WHERE dTie.fecha >= DATEADD(day, -30, CAST(GETDATE() AS DATE)))
-SELECT dClie.cliente_key,
+SELECT DISTINCT dClie.cliente_key,
        CN.Nombre,
        Trx30.monto,
        Prom.promedio_global,
@@ -210,5 +210,6 @@ CREATE NONCLUSTERED INDEX IX_fac_transaccion_fecha_monto_50k
 CREATE UNIQUE NONCLUSTERED INDEX UX_dim_tiempo_fecha
     ON dbo.dim_tiempo (fecha)
     INCLUDE (fecha_key, anio, mes, dia);
+
 
 --Alejandro Daniel Montufar Reyes
